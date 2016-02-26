@@ -25,6 +25,8 @@ endif
 SRC_DIR = ./src
 INTRO = $(SRC_DIR)/intro.js
 OUTRO = $(SRC_DIR)/outro.js
+AMD_OPEN = $(SRC_DIR)/amd-open.js
+AMD_CLOSE = $(SRC_DIR)/amd-close.js
 
 PJS_SRC = ./node_modules/pjs/src/p.js
 
@@ -79,6 +81,8 @@ DISTTAR = $(DISTDIR).tgz
 DISTZIP = $(DISTDIR).zip
 CLEAN += $(DISTTAR) $(DISTZIP)
 
+BUILD_AMD = $(BUILD_DIR)/mathquill-amd.js
+
 # programs and flags
 UGLIFY ?= ./node_modules/.bin/uglifyjs
 UGLIFY_OPTS ?= --mangle --compress hoist_vars=true --comments /maintainers@mathquill.com/
@@ -103,8 +107,8 @@ BUILD_DIR_EXISTS = $(BUILD_DIR)/.exists--used_by_Makefile
 # -*- Build tasks -*-
 #
 
-.PHONY: all basic dev js uglify css font dist clean
-all: font css uglify
+.PHONY: all basic dev js uglify css font dist amd clean
+all: font css uglify amd
 basic: $(UGLY_BASIC_JS) $(BASIC_CSS)
 # dev is like all, but without minification
 dev: font css js
@@ -112,6 +116,7 @@ js: $(BUILD_JS)
 uglify: $(UGLY_JS)
 css: $(BUILD_CSS)
 font: $(FONT_TARGET)
+amd: $(BUILD_AMD)
 clean:
 	rm -rf $(CLEAN)
 
@@ -153,6 +158,9 @@ dist: $(UGLY_JS) $(BUILD_JS) $(BUILD_CSS) $(FONT_TARGET)
 	zip -r -X $(DISTZIP) $(DISTDIR)
 	tar -czf $(DISTTAR) $(DISTDIR)
 	rm -r $(DISTDIR)
+
+$(BUILD_AMD): $(AMD_OPEN) $(BUILD_JS) $(AMD_CLOSE)
+	cat $^ | ./script/escape-non-ascii | $(UGLIFY) $(UGLIFY_OPTS) > $@
 
 #
 # -*- Test tasks -*-
