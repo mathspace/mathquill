@@ -123,7 +123,11 @@
   //   See also .fraction
   .mq-supsub {
     font-size: 90%;
-    vertical-align: -.5em;
+    vertical-align: middle;
+    flex-direction: column;
+    justify-content: space-between;
+    align-self: stretch;
+
     &.mq-limit {
       font-size: 80%;
       vertical-align: -.4em;
@@ -173,12 +177,6 @@
   // parentheses
   .mq-paren {
     padding: 0 .1em;
-    vertical-align: top;
-    -webkit-transform-origin: center .06em;
-    -moz-transform-origin: center .06em;
-    -ms-transform-origin: center .06em;
-    -o-transform-origin: center .06em;
-    transform-origin: center .06em;
 
     &.mq-ghost { color: silver; }
 
@@ -223,6 +221,8 @@
     text-align: center;
     vertical-align: -.4em;
     padding: 0 .2em;
+    display: flex;
+    flex-direction: column;
   }
 
   // Firefox 2 (and older?) only
@@ -237,7 +237,9 @@
   }
 
   .mq-numerator, .mq-denominator {
-    display: block;
+    align-items: flex-end;
+    display: flex;
+    justify-content: center;
   }
 
   .mq-numerator {
