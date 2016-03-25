@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=624">
+
+<title>MathQuill Latex Feature Support</title>
+
+<link rel="stylesheet" type="text/css" href="support/home.css">
+<link rel="stylesheet" type="text/css" href="../build/mathquill.css">
+
+<style type="text/css">
+.mathquill-text-field {
+  width: 100%;
+}
+.command {
+  padding: 0.5em 1em;
+}
+</style>
+
+</head>
+<body>
+<div id="body">
+
+<h1>MathQuill Latex Feature Support</h1>
+
+<h2>Feature List</h2>
+
+<div id="generated-commands"></div>
+
+
+</div>
+<script type="text/javascript" src="support/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="../build/mathquill.js"></script>
+<script type="text/javascript">
+MQ = MathQuill.getInterface(MathQuill.getInterface.MAX);
+
+for (prop in MQ.LatexCommands) {
+  if (MQ.LatexCommands.hasOwnProperty(prop)) {
+    var list = $('#generated-commands')
+    list.append(
+      '<div class="command">' +
+        '<div><code>\\' + prop + '</code></div>' +
+        '<div><span class="mathquill-static-math">' +
+          '\\' + prop + '{x}{y}' +
+        '</span></div>' +
+      '</div>'
+    );
+  }
+}
+
+//on document ready, mathquill-ify all `<tag class="mathquill-static-math">latex</tag>`
+//elements according to their CSS class.
+$(function() {
+  $('.mathquill-static-math').each(function() { MQ.StaticMath(this); });
+});
+</script>
+</body>

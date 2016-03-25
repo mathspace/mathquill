@@ -217,6 +217,8 @@ function getInterface(v) {
   MQ.EditableField = function() { throw "wtf don't call me, I'm 'abstract'"; };
   MQ.EditableField.prototype = APIClasses.EditableField.prototype;
 
+  MQ.LatexCommands = LatexCmds;
+
   /**
    * Export the API functions that MathQuill-ify an HTML element into API objects
    * of each class. If the element had already been MathQuill-ified but into a
