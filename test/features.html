@@ -41,6 +41,9 @@ for (prop in MQ.LatexCommands) {
     list.append(
       '<div class="command">' +
         '<div><code>\\' + prop + '</code></div>' +
+        '<div><code>' +
+          $("<div>").text(MQ.LatexCommands[prop]().htmlTemplate).html() +
+        '</code></div>' +
         '<div><span class="mathquill-static-math">' +
           '\\' + prop + '{x}{y}' +
         '</span></div>' +
