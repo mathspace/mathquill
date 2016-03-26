@@ -37,15 +37,41 @@ MQ = MathQuill.getInterface(MathQuill.getInterface.MAX);
 
 for (prop in MQ.LatexCommands) {
   if (MQ.LatexCommands.hasOwnProperty(prop)) {
-    var list = $('#generated-commands')
+
+    var list = $('#generated-commands'),
+        blocks,
+        i;
+
+    // generate the appropriate number of blocks for this command
+    if (MQ.LatexCommands[prop]().numBlocks &&
+        MQ.LatexCommands[prop]().htmlTemplate) {
+      switch (MQ.LatexCommands[prop]().numBlocks()) {
+        case 1:
+          blocks = '{x}';
+          break;
+        case 2:
+          blocks = '{x}{y}';
+          break;
+        case 3:
+          blocks = '{x}{y}{z}';
+          break;
+        default:
+          blocks = '';
+      }
+    } else {
+      blocks = '{Lorem ipsum}';
+    }
+
     list.append(
       '<div class="command">' +
         '<div><code>\\' + prop + '</code></div>' +
         '<div><code>' +
+          // html escape the latex command
           $("<div>").text(MQ.LatexCommands[prop]().htmlTemplate).html() +
         '</code></div>' +
         '<div><span class="mathquill-static-math">' +
-          '\\' + prop + '{x}{y}' +
+          '\\' + prop +
+          blocks +
         '</span></div>' +
       '</div>'
     );
