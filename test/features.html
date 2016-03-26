@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=624">
+
+<title>MathQuill Latex Feature Support</title>
+
+<link rel="stylesheet" type="text/css" href="support/home.css">
+<link rel="stylesheet" type="text/css" href="../build/mathquill.css">
+
+<style type="text/css">
+.mathquill-text-field {
+  width: 100%;
+}
+.command {
+  padding: 0.5em 1em;
+}
+</style>
+
+</head>
+<body>
+<div id="body">
+
+<h1>MathQuill Latex Feature Support</h1>
+
+<h2>Feature List</h2>
+
+<div id="generated-commands"></div>
+
+
+</div>
+<script type="text/javascript" src="support/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="../build/mathquill.js"></script>
+<script type="text/javascript">
+MQ = MathQuill.getInterface(MathQuill.getInterface.MAX);
+
+for (prop in MQ.LatexCommands) {
+  if (MQ.LatexCommands.hasOwnProperty(prop)) {
+
+    var list = $('#generated-commands'),
+        blocks,
+        i;
+
+    // generate the appropriate number of blocks for this command
+    if (MQ.LatexCommands[prop]().numBlocks &&
+        MQ.LatexCommands[prop]().htmlTemplate) {
+      switch (MQ.LatexCommands[prop]().numBlocks()) {
+        case 1:
+          blocks = '{x}';
+          break;
+        case 2:
+          blocks = '{x}{y}';
+          break;
+        case 3:
+          blocks = '{x}{y}{z}';
+          break;
+        default:
+          blocks = '';
+      }
+    } else {
+      blocks = '{Lorem ipsum}';
+    }
+
+    list.append(
+      '<div class="command">' +
+        '<div><code>\\' + prop + '</code></div>' +
+        '<div><code>' +
+          // html escape the latex command
+          $("<div>").text(MQ.LatexCommands[prop]().htmlTemplate).html() +
+        '</code></div>' +
+        '<div><span class="mathquill-static-math">' +
+          '\\' + prop +
+          blocks +
+        '</span></div>' +
+      '</div>'
+    );
+  }
+}
+
+//on document ready, mathquill-ify all `<tag class="mathquill-static-math">latex</tag>`
+//elements according to their CSS class.
+$(function() {
+  $('.mathquill-static-math').each(function() { MQ.StaticMath(this); });
+});
+</script>
+</body>
