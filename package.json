@@ -3,6 +3,7 @@
   "description": "Easily type math in your webapp",
   "version": "0.10.1",
   "license": "MPL-2.0",
+  "main": "build/mathquill-amd.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/mathquill/mathquill.git"
@@ -14,5 +15,8 @@
     "mocha": ">=2.4.1",
     "uglify-js": "2.x",
     "less": ">=1.5.1"
+  },
+  "peerDependencies": {
+    "jquery": ">=1.4.3"
   }
 }
